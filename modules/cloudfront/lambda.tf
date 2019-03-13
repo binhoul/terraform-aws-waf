@@ -1,5 +1,4 @@
 resource "aws_lambda_function" "LambdaWAFBadBotParserFunction" {
-  depends_on    = ["aws_s3_bucket_object.access_handler_zip"]
   function_name = "${var.waf_prefix}-LambdaWAFBadBotParserFunction-${element(split("-",uuid()),0)}"
   description   = "This lambda function will intercepts and inspects trap endpoint requests to extract its IP address, and then add it to an AWS WAF block list."
   role          = "${aws_iam_role.lambda_role_bad_bot.arn}"
@@ -29,7 +28,6 @@ resource "aws_lambda_function" "LambdaWAFBadBotParserFunction" {
 }
 
 resource "aws_lambda_function" "LambdaWAFCustomResourceFunction" {
-  depends_on    = ["aws_s3_bucket_object.custom_resource_zip"]
   function_name = "${var.waf_prefix}-LambdaWAFCustomResourceFunction-${element(split("-",uuid()),0)}"
   description   = "This lambda function configures the Web ACL rules based on the features enabled in the CloudFormation template. Parameters: yes"
   role          = "${aws_iam_role.lambda_role_custom_resource.arn}"
@@ -57,7 +55,6 @@ resource "aws_lambda_function" "LambdaWAFCustomResourceFunction" {
 }
 
 resource "aws_lambda_function" "LambdaWAFLogParserFunction" {
-  depends_on    = ["aws_s3_bucket_object.log_parser_zip"]
   function_name = "${var.waf_prefix}-LambdaWAFLogParserFunction-${element(split("-",uuid()),0)}"
   description   = "This function parses CloudFront access logs to identify suspicious behavior, such as an abnormal amount of requests or errors. It then blocks those IP addresses for a customer-defined period of time."
   role          = "${aws_iam_role.lambda_role_log_parser.arn}"
@@ -88,7 +85,6 @@ resource "aws_lambda_function" "LambdaWAFLogParserFunction" {
 }
 
 resource "aws_lambda_function" "LambdaWAFReputationListsParserFunction" {
-  depends_on    = ["aws_s3_bucket_object.reputation_lists_parser_zip"]
   function_name = "${var.waf_prefix}-LambdaWAFReputationListsParserFunction-${element(split("-",uuid()),0)}"
   description   = "This lambda function checks third-party IP reputation lists hourly for new IP ranges to block. These lists include the Spamhaus Dont Route Or Peer (DROP) and Extended Drop (EDROP) lists, the Proofpoint Emerging Threats IP list, and the Tor exit node list."
   role          = "${aws_iam_role.lambda_role_reputation_list_parser.arn}"
