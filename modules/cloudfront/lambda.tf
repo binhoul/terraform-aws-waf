@@ -81,7 +81,6 @@ resource "aws_lambda_function" "custom_resource" {
   memory_size   = "128"
   timeout       = "300"
 
-
   environment {
     variables = {
       API_TYPE  = "${local.api_type}"

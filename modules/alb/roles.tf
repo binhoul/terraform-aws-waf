@@ -122,7 +122,7 @@ data "aws_iam_policy_document" "custom_resource" {
     effect = "Allow"
 
     resources = [
-      "arn:aws:waf-regional:${var.aws_region}:${data.aws_caller_identity.current.account_id}:ipset/*"
+      "arn:aws:waf-regional:${var.aws_region}:${data.aws_caller_identity.current.account_id}:ipset/*",
     ]
   }
 

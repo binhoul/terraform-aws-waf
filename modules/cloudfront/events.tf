@@ -5,8 +5,8 @@ resource "aws_cloudwatch_event_rule" "reputation_lists_parser" {
 }
 
 resource "aws_cloudwatch_event_target" "reputation_lists_parser" {
-  rule      = "${aws_cloudwatch_event_rule.reputation_lists_parser.name}"
-  arn       = "${aws_lambda_function.reputation_lists_parser.arn}"
+  rule = "${aws_cloudwatch_event_rule.reputation_lists_parser.name}"
+  arn  = "${aws_lambda_function.reputation_lists_parser.arn}"
 
   input = <<INPUT
 {
