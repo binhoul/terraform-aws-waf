@@ -6,7 +6,8 @@
 #     - Body (URL & HTML decode transformation)
 ###################################################################
 resource "aws_wafregional_sql_injection_match_set" "waf_sql_injection_set" {
-  name = "detect-sqlinjection-set"
+  count = "${var.sql_injection_protection_activated == "yes" ? 1 : 0}"
+  name  = "detect-sqlinjection-set"
 
   sql_injection_match_tuple {
     text_transformation = "HTML_ENTITY_DECODE"
@@ -66,7 +67,8 @@ resource "aws_wafregional_sql_injection_match_set" "waf_sql_injection_set" {
 ###################################################################
 
 resource "aws_wafregional_xss_match_set" "waf_xss_set" {
-  name = "detect-xss-set"
+  count = "${var.cross_site_scripting_protection_activated == "yes" ? 1 : 0}"
+  name  = "detect-xss-set"
 
   xss_match_tuple {
     text_transformation = "HTML_ENTITY_DECODE"
@@ -144,7 +146,8 @@ resource "aws_wafregional_ipset" "waf_blacklist_set" {
 }
 
 resource "aws_wafregional_ipset" "waf_scanner_probe_set" {
-  name = "scanner-probe-set"
+  count = "${var.scanner_probe_protection_activated == "yes" ? 1 : 0}"
+  name  = "scanner-probe-set"
 
   count = "${length(var.waf_scanner_probe_ipset)}"
 
@@ -155,7 +158,8 @@ resource "aws_wafregional_ipset" "waf_scanner_probe_set" {
 }
 
 resource "aws_wafregional_ipset" "waf_reputation_set" {
-  name = "reputation-set"
+  count = "${var.reputation_lists_protection_activated == "yes" ? 1 : 0}"
+  name  = "reputation-set"
 
   count = "${length(var.waf_reputation_ipset)}"
 
@@ -166,7 +170,8 @@ resource "aws_wafregional_ipset" "waf_reputation_set" {
 }
 
 resource "aws_wafregional_ipset" "waf_bad_bot_set" {
-  name = "bad-bot-set"
+  count = "${var.bad_bot_protection_activated == "yes" ? 1 : 0}"
+  name  = "bad-bot-set"
 
   count = "${length(var.waf_bad_bot_ipset)}"
 

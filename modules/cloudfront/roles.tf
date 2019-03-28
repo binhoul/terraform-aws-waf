@@ -212,17 +212,21 @@ data "aws_iam_policy_document" "bad_bot" {
 # Log Parser
 ###############################################################################
 resource "aws_iam_role" "lambda_role_log_parser" {
+  count              = "${var.scanner_probe_protection_activated == "yes" ? 1 : 0}"
   name               = "${var.waf_prefix}${var.stack_name}LambdaRoleLogParser"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role.json}"
 }
 
 resource "aws_iam_role_policy" "log_parser" {
+  count  = "${var.scanner_probe_protection_activated == "yes" ? 1 : 0}"
   name   = "${var.waf_prefix}${var.stack_name}LogParser"
   role   = "${aws_iam_role.lambda_role_log_parser.id}"
   policy = "${data.aws_iam_policy_document.log_parser.json}"
 }
 
 data "aws_iam_policy_document" "log_parser" {
+  count = "${var.scanner_probe_protection_activated == "yes" ? 1 : 0}"
+
   statement {
     actions = [
       "waf:GetChangeToken",
@@ -304,17 +308,22 @@ data "aws_iam_policy_document" "log_parser" {
 # Reputation List Parser
 ###############################################################################
 resource "aws_iam_role" "lambda_role_reputation_list_parser" {
+  count              = "${var.reputation_lists_protection_activated == "yes" ? 1 : 0}"
   name               = "${var.waf_prefix}${var.stack_name}LambdaRoleReputationListParser"
   assume_role_policy = "${data.aws_iam_policy_document.assume_role.json}"
 }
 
 resource "aws_iam_role_policy" "reputation_list_parser" {
+  count = "${var.reputation_lists_protection_activated == "yes" ? 1 : 0}"
+
   name   = "${var.waf_prefix}${var.stack_name}ReputationListParser"
   role   = "${aws_iam_role.lambda_role_reputation_list_parser.id}"
   policy = "${data.aws_iam_policy_document.reputation_list_parser.json}"
 }
 
 data "aws_iam_policy_document" "reputation_list_parser" {
+  count = "${var.reputation_lists_protection_activated == "yes" ? 1 : 0}"
+
   statement {
     actions = [
       "waf:GetChangeToken",

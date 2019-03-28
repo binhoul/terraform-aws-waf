@@ -1,4 +1,5 @@
 resource "aws_lambda_function" "log_parser" {
+  count         = "${var.scanner_probe_protection_activated == "yes" ? 1 : 0}"
   function_name = "${var.waf_prefix}_${lower(var.stack_name)}_log_parser"
   description   = "This function parses CloudFront access logs to identify suspicious behavior, such as an abnormal amount of requests or errors. It then blocks those IP addresses for a customer-defined period of time."
   role          = "${aws_iam_role.lambda_role_log_parser.arn}"
@@ -49,6 +50,8 @@ resource "aws_lambda_function" "reputation_lists_parser" {
 }
 
 resource "aws_lambda_function" "bad_bot_parser" {
+  count = "${var.bad_bot_protection_activated == "yes" ? 1 : 0}"
+
   function_name = "${var.waf_prefix}_${lower(var.stack_name)}_bad_bot_parser"
   description   = "This lambda function will intercepts and inspects trap endpoint requests to extract its IP address, and then add it to an AWS WAF block list."
   role          = "${aws_iam_role.lambda_role_bad_bot.arn}"

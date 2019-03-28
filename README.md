@@ -34,8 +34,10 @@ Honeypot (A): This component creates a honeypot to lure and deflect content scra
 ### Assumptions
 
 ### Usage example
+
+#### Apply a cloudfront waf
 ```hcl
-module "waf" {
+module "testwaf" {
   source            = "../modules/cloudfront"
   access_log_bucket = "access_log_bucket_name"
   aws_region        = "ap-southeast-1"

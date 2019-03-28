@@ -14,6 +14,7 @@ module "configure_access_log_bucket" {
 }
 
 module "populate_reputation_list" {
+  count               = "${var.reputation_lists_protection_activated == "yes" ? 1 : 0}"
   source              = "github.com/binhoul/terraform-aws-lambda-exec.git?ref=1.0.4"
   name                = "PopulateReputationList"
   lambda_function_arn = "${aws_lambda_function.custom_resource.arn}"
@@ -48,19 +49,19 @@ module "configure_web_acl" {
     # AWS WAF Rules
     WAFWhitelistRule         = "${aws_waf_rule.waf_whitelist.id}"
     WAFBlacklistRule         = "${aws_waf_rule.waf_blacklist.id}"
-    WAFSqlInjectionRule      = "${aws_waf_rule.waf_sql_injection.id}"
-    WAFXssRule               = "${aws_waf_rule.waf_xss.id}"
-    RateBasedRule            = "${aws_waf_rate_based_rule.waf_rate_based_rule.id}"
-    WAFScannersProbesRule    = "${aws_waf_rule.waf_scanner_probe.id}"
-    WAFIPReputationListsRule = "${aws_waf_rule.waf_reputation.id}"
-    WAFBadBotRule            = "${aws_waf_rule.waf_bad_bot.id}"
+    WAFSqlInjectionRule      = "${var.sql_injection_protection_activated == "yes" ? aws_waf_rule.waf_sql_injection.id : ""}"
+    WAFXssRule               = "${var.cross_site_scripting_protection_activated == "yes" ? aws_waf_rule.waf_xss.id : ""}"
+    RateBasedRule            = "${var.http_flood_protection_activated == "yes" ? aws_waf_rate_based_rule.waf_rate_based_rule.id : ""}"
+    WAFScannersProbesRule    = "${var.scanner_probe_protection_activated == "yes" ? aws_waf_rule.waf_scanner_probe.id : ""}"
+    WAFIPReputationListsRule = "${var.reputation_lists_protection_activated == "yes" ? aws_waf_rule.waf_reputation.id : ""}"
+    WAFBadBotRule            = "${var.bad_bot_protection_activated == "yes" ? aws_waf_rule.waf_bad_bot.id : ""}"
 
     # AWS WAF IP Sets
     WAFWhitelistSet       = "${aws_waf_ipset.waf_whitelist_set.id}"
     WAFBlacklistSet       = "${aws_waf_ipset.waf_blacklist_set.id}"
-    WAFScannersProbesSet  = "${aws_waf_ipset.waf_scanner_probe_set.id}"
-    WAFReputationListsSet = "${aws_waf_ipset.waf_reputation_set.id}"
-    WAFBadBotSet          = "${aws_waf_ipset.waf_bad_bot_set.id}"
+    WAFScannersProbesSet  = "${var.scanner_probe_protection_activated == "yes" ? aws_waf_ipset.waf_scanner_probe_set.id : ""}"
+    WAFReputationListsSet = "${var.reputation_lists_protection_activated == "yes" ? aws_waf_ipset.waf_reputation_set.id : ""}"
+    WAFBadBotSet          = "${var.bad_bot_protection_activated == "yes" ? aws_waf_ipset.waf_bad_bot_set.id : ""}"
 
     # Extra Info
     UUID                   = "${random_uuid.uuid.result}"
