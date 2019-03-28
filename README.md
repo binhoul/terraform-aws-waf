@@ -33,17 +33,62 @@ Honeypot (A): This component creates a honeypot to lure and deflect content scra
 
 ### Assumptions
 
-### Usage example
+You have correctly configure your aws account, and export aws secrets as envrionment variable.
+```bash
+export AWS_ACCESS_KEY_ID=xxxx
+export AWS_SECRET_ACCESS_KEY=xxxx
+```
 
-#### Apply a cloudfront waf
+### Usage example
+1. example to use alb as endpoint
 ```hcl
-module "testwaf" {
-  source            = "../modules/cloudfront"
-  access_log_bucket = "access_log_bucket_name"
-  aws_region        = "ap-southeast-1"
+module "testalb" {
+  source                                    = "../../modules/alb"
+  access_log_bucket                         = "test-bucket-alb"
+  aws_region                                = "ap-southeast-1"
+  sql_injection_protection_activated        = "yes"
+  cross_site_scripting_protection_activated = "yes"
+  http_flood_protection_activated           = "yes"
+  scanner_probe_protection_activated        = "yes"
+  reputation_lists_protection_activated     = "yes"
+  bad_bot_protection_activated              = "yes"
+}
+
+```
+
+2. example to use cloudfront as endpoint
+
+```hcl
+module "testcloudfront" {
+  source                                    = "../../modules/cloudfront"
+  access_log_bucket                         = "test-bucket-cloudfront"
+  aws_region                                = "ap-southeast-1"
+  sql_injection_protection_activated        = "yes"
+  cross_site_scripting_protection_activated = "yes"
+  http_flood_protection_activated           = "yes"
+  scanner_probe_protection_activated        = "yes"
+  reputation_lists_protection_activated     = "yes"
+  bad_bot_protection_activated              = "yes"
 }
 ```
 
+### Run example
+
+Deploy WAF ACL for ALB
+```
+cd examples/alb
+terraform init
+terraform plan
+terraform run
+```
+
+Deploy WAF ACL for CloudFront
+```
+cd examples/cloudfront
+terraform init
+terraform plan
+terraform run
+```
 
 ---
 **Referance:**

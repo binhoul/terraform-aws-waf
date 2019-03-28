@@ -20,7 +20,7 @@ module "populate_reputation_list" {
   custom_name         = "PopulateReputationList"
 
   lambda_inputs = {
-    count               = "${var.reputation_lists_protection_activated == "yes" ? 1 : 0}"
+    count                                  = "${var.reputation_lists_protection_activated == "yes" ? 1 : 0}"
     Region                                 = "${var.aws_region}"
     LambdaWAFReputationListsParserFunction = "${aws_lambda_function.reputation_lists_parser.arn}"
     WAFReputationListsSet                  = "${aws_waf_ipset.waf_reputation_set.id}"
