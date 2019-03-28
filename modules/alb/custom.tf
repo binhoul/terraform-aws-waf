@@ -1,5 +1,5 @@
 module "configure_access_log_bucket" {
-  source              = "github.com/binhoul/terraform-aws-lambda-exec.git?ref=1.0.4"
+  source              = "github.com/binhoul/terraform-aws-lambda-exec.git?ref=1.0.6"
   name                = "ConfigureAccessLogBucket"
   lambda_function_arn = "${aws_lambda_function.custom_resource.arn}"
   custom_name         = "ConfigureAccessLogBucket"
@@ -14,13 +14,13 @@ module "configure_access_log_bucket" {
 }
 
 module "populate_reputation_list" {
-  count               = "${var.scanner_probe_protection_activated == "yes" ? 1 : 0}"
-  source              = "github.com/binhoul/terraform-aws-lambda-exec.git?ref=1.0.4"
+  source              = "github.com/binhoul/terraform-aws-lambda-exec.git?ref=1.0.6"
   name                = "PopulateReputationList"
   lambda_function_arn = "${aws_lambda_function.custom_resource.arn}"
   custom_name         = "PopulateReputationList"
 
   lambda_inputs = {
+    count               = "${var.scanner_probe_protection_activated == "yes" ? 1 : 0}"
     Region                                 = "${var.aws_region}"
     LambdaWAFReputationListsParserFunction = "${aws_lambda_function.reputation_lists_parser.arn}"
     WAFReputationListsSet                  = "${aws_wafregional_ipset.waf_reputation_set.id}"
@@ -30,7 +30,7 @@ module "populate_reputation_list" {
 }
 
 module "configure_web_acl" {
-  source              = "github.com/binhoul/terraform-aws-lambda-exec.git?ref=1.0.4"
+  source              = "github.com/binhoul/terraform-aws-lambda-exec.git?ref=1.0.6"
   name                = "ConfigureWebAcl"
   lambda_function_arn = "${aws_lambda_function.custom_resource.arn}"
   custom_name         = "ConfigureWebAcl"
@@ -49,7 +49,7 @@ module "configure_web_acl" {
     # AWS WAF Rules
     WAFWhitelistRule         = "${aws_wafregional_rule.waf_whitelist.id}"
     WAFBlacklistRule         = "${aws_wafregional_rule.waf_blacklist.id}"
-    WAFSqlInjectionRule      = "${var.sql_injection_protection_activated == "yes" : aws_wafregional_rule.waf_sql_injection.id : ""}"
+    WAFSqlInjectionRule      = "${var.sql_injection_protection_activated == "yes" ? aws_wafregional_rule.waf_sql_injection.id : ""}"
     WAFXssRule               = "${var.cross_site_scripting_protection_activated == "yes" ? aws_wafregional_rule.waf_xss.id : ""}"
     RateBasedRule            = "${var.http_flood_protection_activated == "yes" ? aws_wafregional_rate_based_rule.waf_rate_based_rule.id : ""}"
     WAFScannersProbesRule    = "${var.scanner_probe_protection_activated == "yes" ? aws_wafregional_rule.waf_scanner_probe.id : ""}"
