@@ -76,18 +76,18 @@ module "testcloudfront" {
 
 Deploy WAF ACL for ALB
 ```
-cd examples/alb
-terraform init
-terraform plan
-terraform run
+$cd examples/alb
+$terraform init
+$terraform plan
+$terraform run
 ```
 
 Deploy WAF ACL for CloudFront
 ```
-cd examples/cloudfront
-terraform init
-terraform plan
-terraform run
+$cd examples/cloudfront
+$terraform init
+$terraform plan
+$terraform run
 ```
 
 ---
