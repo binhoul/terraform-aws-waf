@@ -22,7 +22,7 @@ resource "aws_cloudwatch_event_target" "reputation_lists_parser" {
       "url": "https://rules.emergingthreats.net/fwrules/emerging-Block-IPs.txt"
     }
   ],
-  "apiType": "waf",
+  "apiType": "${local.waf_web_acl}",
   "region": "${var.aws_region}",
   "ipSetIds": [
     "${aws_wafregional_ipset.waf_reputation_set.id}"
