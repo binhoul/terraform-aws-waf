@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "testcloudfront" {
-  source                                    = "../../modules/cloudfront"
-  access_log_bucket                         = "test-bucket-cloudfront"
-  aws_region                                = "ap-southeast-1"
+  source            = "../../modules/cloudfront"
+  access_log_bucket = "test-bucket-cloudfront"
+  aws_region        = "ap-southeast-1"
 }

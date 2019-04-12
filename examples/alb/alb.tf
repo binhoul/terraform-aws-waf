@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "testalb" {
-  source                                    = "../../modules/alb"
-  access_log_bucket                         = "test-bucket-alb2"
-  aws_region                                = "ap-southeast-1"
+  source            = "../../modules/alb"
+  access_log_bucket = "test-bucket-alb2"
+  aws_region        = "ap-southeast-1"
 }

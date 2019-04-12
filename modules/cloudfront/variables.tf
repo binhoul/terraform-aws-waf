@@ -86,32 +86,32 @@ variable "ip_type" {
 
 variable "waf_whitelist_ipset" {
   description = "Provide waf whitelist to allow accessing web resources"
-  default     = ["0.0.0.0/32"]
+  default     = []
 }
 
 variable "waf_blacklist_ipset" {
   description = "Provide waf blacklist to deny accessing web resources"
-  default     = ["0.0.0.0/32"]
+  default     = []
 }
 
 variable "waf_scanner_probe_ipset" {
   description = "Provide waf scanner and probe ip list to deny accessing web resources"
-  default     = ["0.0.0.0/32"]
+  default     = []
 }
 
 variable "waf_reputation_ipset" {
   description = "Provide waf bad reputation ip list to deny accessing web resources"
-  default     = ["0.0.0.0/32"]
+  default     = []
 }
 
 variable "waf_bad_bot_ipset" {
   description = "Provide waf bad bot ip list to deny accessing web resources"
-  default     = ["0.0.0.0/32"]
+  default     = []
 }
 
 variable "waf_http_flood_ipset" {
   description = "Provide waf http flood ip list to deny accessing web resources"
-  default     = ["0.0.0.0/32"]
+  default     = []
 }
 
 variable "send_anonymous_usage_data" {

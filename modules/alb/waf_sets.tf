@@ -124,59 +124,24 @@ resource "aws_wafregional_xss_match_set" "waf_xss_set" {
 ###################################################################
 
 resource "aws_wafregional_ipset" "waf_whitelist_set" {
-  name = "whiltelist-set"
-
-  count = "${length(var.waf_whitelist_ipset)}"
-
-  ip_set_descriptor {
-    type  = "${var.ip_type}"
-    value = "${var.waf_whitelist_ipset[count.index]}"
-  }
+  name = "whitelist-set"
 }
 
 resource "aws_wafregional_ipset" "waf_blacklist_set" {
   name = "blacklist-set"
-
-  count = "${length(var.waf_blacklist_ipset)}"
-
-  ip_set_descriptor {
-    type  = "${var.ip_type}"
-    value = "${var.waf_blacklist_ipset[count.index]}"
-  }
 }
 
 resource "aws_wafregional_ipset" "waf_scanner_probe_set" {
   count = "${var.scanner_probe_protection_activated == "yes" ? 1 : 0}"
   name  = "scanner-probe-set"
-
-  count = "${length(var.waf_scanner_probe_ipset)}"
-
-  ip_set_descriptor {
-    type  = "${var.ip_type}"
-    value = "${var.waf_scanner_probe_ipset[count.index]}"
-  }
 }
 
 resource "aws_wafregional_ipset" "waf_reputation_set" {
   count = "${var.reputation_lists_protection_activated == "yes" ? 1 : 0}"
   name  = "reputation-set"
-
-  count = "${length(var.waf_reputation_ipset)}"
-
-  ip_set_descriptor {
-    type  = "${var.ip_type}"
-    value = "${var.waf_reputation_ipset[count.index]}"
-  }
 }
 
 resource "aws_wafregional_ipset" "waf_bad_bot_set" {
   count = "${var.bad_bot_protection_activated == "yes" ? 1 : 0}"
   name  = "bad-bot-set"
-
-  count = "${length(var.waf_bad_bot_ipset)}"
-
-  ip_set_descriptor {
-    type  = "${var.ip_type}"
-    value = "${var.waf_bad_bot_ipset[count.index]}"
-  }
 }
