@@ -124,12 +124,12 @@ resource "aws_wafregional_xss_match_set" "waf_xss_set" {
 ###################################################################
 
 resource "aws_wafregional_ipset" "waf_whitelist_set" {
-  name = "whitelist-set"
+  name              = "whitelist-set"
   ip_set_descriptor = "${var.waf_whitelist_ipset}"
 }
 
 resource "aws_wafregional_ipset" "waf_blacklist_set" {
-  name = "blacklist-set"
+  name              = "blacklist-set"
   ip_set_descriptor = "${var.waf_blacklist_ipset}"
 }
 

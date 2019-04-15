@@ -124,11 +124,13 @@ resource "aws_waf_xss_match_set" "waf_xss_set" {
 ###################################################################
 
 resource "aws_waf_ipset" "waf_whitelist_set" {
-  name = "whitelist-set"
+  name               = "whitelist-set"
+  ip_set_descriptors = "${var.waf_whitelist_ipset}"
 }
 
 resource "aws_waf_ipset" "waf_blacklist_set" {
-  name = "blacklist-set"
+  name               = "blacklist-set"
+  ip_set_descriptors = "${var.waf_blacklist_ipset}"
 }
 
 resource "aws_waf_ipset" "waf_scanner_probe_set" {
