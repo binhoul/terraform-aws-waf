@@ -63,6 +63,9 @@ module "configure_web_acl" {
     WAFReputationListsSet = "${var.reputation_lists_protection_activated == "yes" ? aws_wafregional_ipset.waf_reputation_set.id : ""}"
     WAFBadBotSet          = "${var.bad_bot_protection_activated == "yes" ? aws_wafregional_ipset.waf_bad_bot_set.id : ""}"
 
+    # Additional RUles
+    WAFAdditionalRules = "${var.waf_additional_rules}"
+
     # Extra Info
     UUID                   = "${random_uuid.uuid.result}"
     Region                 = "${var.aws_region}"
