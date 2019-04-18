@@ -137,3 +137,8 @@ variable "tags" {
     stack       = "cloudfront"
   }
 }
+
+variable "waf_additional_rules" {
+  type        = "list"
+  description = "Additional WAF rules"
+}

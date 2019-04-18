@@ -56,6 +56,8 @@ module "configure_web_acl" {
     WAFIPReputationListsRule = "${var.reputation_lists_protection_activated == "yes" ? aws_waf_rule.waf_reputation.id : ""}"
     WAFBadBotRule            = "${var.bad_bot_protection_activated == "yes" ? aws_waf_rule.waf_bad_bot.id : ""}"
 
+    WAFAdditionalRules = "${var.waf_additional_rules}"
+
     # AWS WAF IP Sets
     WAFWhitelistSet       = "${aws_waf_ipset.waf_whitelist_set.id}"
     WAFBlacklistSet       = "${aws_waf_ipset.waf_blacklist_set.id}"
